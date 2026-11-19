@@ -4,6 +4,8 @@ Site estático, responsivo e gratuito (HTML, CSS, JavaScript). Sem servidor, con
 
 ## Funcionalidades
 
+- O formulário inicia com **saldo, salário, gastos e valor de nova movimentação iguais a R$ 0** e mantém a taxa do cheque especial em **8% a.m.**, sem alterações de exemplo. O botão **Limpar valores** restaura esse estado sem excluir cenários salvos.
+
 - Simulação de saldo, renda, despesas, juros do cheque especial e IOF **estimados** em 12 meses.
 - Mudanças programadas em datas específicas. Para renda/gasto **recorrente**, a nova quantia passa a valer para o **mês inteiro** da data e permanece até outra mudança. Entradas ou despesas pontuais valem somente no mês indicado.
 - Gráfico de evolução, detalhamento mensal e exportação CSV.
