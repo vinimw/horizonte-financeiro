@@ -1,16 +1,14 @@
 /* Horizonte · Simulador financeiro mensal · sem dependências */
 (() => {
   'use strict';
-  const STORAGE_KEY = 'horizonte-financeiro-v1';
+  const STORAGE_KEY = 'horizonte-financeiro-v2';
+  const LEGACY_STORAGE_KEY = 'horizonte-financeiro-v1';
   const SAVED_KEY = 'horizonte-financeiro-scenarios-v1';
   const MAX_SCENARIOS = 50;
   const TYPE_NAMES = {expense:'Novo gasto mensal',income:'Novo salário mensal',extraIn:'Recebimento único',extraOut:'Gasto único'};
   const SAMPLE = {
-    balance: '0', income: '12000', expenses: '14000', rate: '8', startMonth: '2026-12',
-    changes: [
-      {id:1,name:'Redução dos gastos mensais',type:'expense',date:'2027-02-15',amount:'6000'},
-      {id:2,name:'Aumento dos gastos mensais',type:'expense',date:'2027-05-10',amount:'9000'},
-    ],
+    balance: '0', income: '0', expenses: '0', rate: '8', startMonth: '2026-12',
+    changes: [],
   };
   const moneyFmt = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});
   const dom = id => document.getElementById(id);
@@ -48,7 +46,23 @@
     return out;
   }
   let state = cloneSample();
-  try {const stored=localStorage.getItem(STORAGE_KEY);if(stored)state=normalize(JSON.parse(stored));}catch(e){/* storage optional */}
+  try {
+    const stored=localStorage.getItem(STORAGE_KEY);
+    if(stored) state=normalize(JSON.parse(stored));
+    else {
+      const legacyStored=localStorage.getItem(LEGACY_STORAGE_KEY);
+      if(legacyStored){
+        const legacy=JSON.parse(legacyStored);
+        const oldExample=legacy && String(legacy.balance)==='0' && String(legacy.income)==='12000' &&
+          String(legacy.expenses)==='14000' && String(legacy.rate)==='8' &&
+          legacy.startMonth==='2026-12' && Array.isArray(legacy.changes) &&
+          legacy.changes.length===2 && legacy.changes[0].date==='2027-02-15' &&
+          legacy.changes[1].date==='2027-05-10' &&
+          String(legacy.changes[0].amount)==='6000' && String(legacy.changes[1].amount)==='9000';
+        if(!oldExample)state=normalize(legacy);
+      }
+    }
+  }catch(e){/* armazenamento indisponível: usar valores iniciais */}
   let months = [];
   let selectedMonth = 0;
   let savedScenarios = [];
@@ -351,7 +365,7 @@
   });
   dom('compareA').addEventListener('change',ev=>{compareA=ev.target.value;renderCompare();});
   dom('compareB').addEventListener('change',ev=>{compareB=ev.target.value;renderCompare();});
-  dom('reset').addEventListener('click',()=>{if(!window.confirm('Restaurar os valores de exemplo? Os dados atuais serão substituídos.'))return;state=cloneSample();selectedMonth=0;syncForm();update();toast('Exemplo restaurado.');});
+  dom('reset').addEventListener('click',()=>{if(!window.confirm('Zerar os valores da simulação atual? Os cenários salvos para comparação serão preservados.'))return;state=cloneSample();selectedMonth=0;syncForm();dom('eventAmount').value='0';dom('eventName').value='';update();toast('Valores zerados. Os cenários salvos foram preservados.');});
   dom('exportCsv').addEventListener('click',()=>{
     const heads=['Mês','Saldo inicial','Salário','Recebimentos únicos','Gasto mensal','Gastos únicos','Juros','IOF diário','IOF adicional','Saldo final'];
     const csvCell=v=>`"${String(v).replace(/"/g,'""')}"`;
