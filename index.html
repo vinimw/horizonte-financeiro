@@ -15,7 +15,7 @@
       <a class="brand" href="#inicio" aria-label="Horizonte, início"><span class="brand-mark">◫</span><span>horizonte<span class="brand-dot">.</span></span></a>
       <div class="top-actions">
         <span class="privacy"><span class="privacy-dot"></span> Dados privados neste navegador</span>
-        <button class="button subtle compact" id="reset" type="button" title="Restaurar dados de exemplo">↺ <span>Restaurar exemplo</span></button>
+        <button class="button subtle compact" id="reset" type="button" title="Zerar os dados da simulação sem apagar os cenários salvos">↺ <span>Limpar valores</span></button>
       </div>
     </header>
     <main id="inicio">
@@ -32,8 +32,8 @@
             <form id="settings-form" autocomplete="off">
               <div class="form-grid">
                 <label class="field">Saldo bancário atual <span class="hint">Pode ser negativo</span><div class="input-wrap"><span>R$</span><input name="balance" id="balance" inputmode="decimal" type="text" value="0" aria-label="Saldo bancário atual em reais" /></div></label>
-                <label class="field">Salário mensal<div class="input-wrap"><span>R$</span><input name="income" id="income" inputmode="decimal" type="text" value="12000" /></div></label>
-                <label class="field">Gasto mensal inicial<div class="input-wrap"><span>R$</span><input name="expenses" id="expenses" inputmode="decimal" type="text" value="14000" /></div></label>
+                <label class="field">Salário mensal<div class="input-wrap"><span>R$</span><input name="income" id="income" inputmode="decimal" type="text" value="0" /></div></label>
+                <label class="field">Gasto mensal inicial<div class="input-wrap"><span>R$</span><input name="expenses" id="expenses" inputmode="decimal" type="text" value="0" /></div></label>
                 <label class="field">Juros do especial <span class="hint">% ao mês</span><div class="input-wrap"><span>%</span><input name="rate" id="rate" inputmode="decimal" type="text" value="8" /></div></label>
                 <label class="field full">Primeiro mês da simulação<input id="startMonth" name="startMonth" type="month" value="2026-12" aria-label="Primeiro mês da projeção" /></label>
               </div>
@@ -51,7 +51,7 @@
               <label class="field">Tipo<select id="eventType" name="type"><option value="expense">Definir novo gasto mensal</option><option value="income">Definir novo salário mensal</option><option value="extraIn">Recebimento único</option><option value="extraOut">Gasto único</option></select></label>
               <div class="form-grid">
                 <label class="field">Data<input type="date" id="eventDate" name="date" value="2027-06-15" required /></label>
-                <label class="field">Valor<div class="input-wrap"><span>R$</span><input type="text" id="eventAmount" name="amount" value="7000" inputmode="decimal" required /></div></label>
+                <label class="field">Valor<div class="input-wrap"><span>R$</span><input type="text" id="eventAmount" name="amount" value="0" inputmode="decimal" required /></div></label>
               </div>
               <button class="button primary full-width" type="submit"><span class="plus">+</span> Adicionar mudança</button>
             </form>
